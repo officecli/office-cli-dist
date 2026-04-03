@@ -9,7 +9,7 @@ BIN_DIR="${BIN_DIR:-${PREFIX}/bin}"
 INSTALL_DIR="${INSTALL_DIR:-${BIN_DIR}}"
 
 if [[ -z "${DIST_REPO}" ]]; then
-  echo "DIST_REPO is required, e.g. officecli/office-cli-dist" >&2
+  echo "DIST_REPO is required, e.g. officecli/officecli-dist" >&2
   exit 1
 fi
 
@@ -78,7 +78,7 @@ install_binary() {
   local extracted_dir="$1"
   local target_dir="$2"
   mkdir -p "${target_dir}"
-  install -m 0755 "${extracted_dir}/office-cli" "${target_dir}/office-cli"
+  install -m 0755 "${extracted_dir}/officecli" "${target_dir}/officecli"
 }
 
 shell_profile_hint() {
@@ -96,7 +96,7 @@ shell_profile_hint() {
       printf '  fish_add_path $HOME/.local/bin\n'
       ;;
     *)
-      printf 'Add ~/.local/bin to your shell startup file so office-cli is available in new sessions.\n'
+      printf 'Add ~/.local/bin to your shell startup file so officecli is available in new sessions.\n'
       ;;
   esac
 }
@@ -115,7 +115,7 @@ fi
 
 resolved_version="$(resolve_version)"
 tag="v${resolved_version}"
-archive_name="office-cli_${resolved_version}_${os}_${arch}.tar.gz"
+archive_name="officecli_${resolved_version}_${os}_${arch}.tar.gz"
 base_url="https://github.com/${DIST_REPO}/releases/download/${tag}"
 
 tmpdir="$(mktemp -d)"
@@ -128,17 +128,17 @@ verify_checksum "${archive_name}" "${tmpdir}/checksums.txt"
 tar -xzf "${tmpdir}/${archive_name}" -C "${tmpdir}"
 install_binary "${tmpdir}" "${INSTALL_DIR}"
 
-echo "installed office-cli ${resolved_version} to ${INSTALL_DIR}/office-cli"
+echo "installed officecli ${resolved_version} to ${INSTALL_DIR}/officecli"
 
-if command -v office-cli >/dev/null 2>&1; then
-  echo "office-cli is already available on PATH: $(command -v office-cli)"
+if command -v officecli >/dev/null 2>&1; then
+  echo "officecli is already available on PATH: $(command -v officecli)"
 else
   case ":${PATH}:" in
     *":${INSTALL_DIR}:"*)
-      echo "office-cli was installed to ${INSTALL_DIR}, but this shell does not resolve it yet."
+      echo "officecli was installed to ${INSTALL_DIR}, but this shell does not resolve it yet."
       ;;
     *)
-      echo "office-cli was installed to ${INSTALL_DIR}, but that directory is not currently on PATH."
+      echo "officecli was installed to ${INSTALL_DIR}, but that directory is not currently on PATH."
       ;;
   esac
   echo "Use it in the current shell with:"
